@@ -33,6 +33,13 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
     if(!empty($_POST['status'])){
         $status = mysqli_real_escape_string($conn, $_POST['status']);
         }
+    
+    if(!empty($_POST['genre'])){
+          $genre = mysqli_real_escape_string($conn, $_POST['genre']);
+          }
+     
+  
+
 
 
     $sqlMovieCheck = "SELECT name FROM users WHERE name = '$movieName'";
@@ -46,10 +53,12 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
       $err = "Movie already exists!";
     }
     else{
-      $sql = "INSERT INTO movie (name, director, cast, release_date, trailer_link, cover_pic, runtime, status)
-              VALUES ('$movieName', '$director' , '$cast', '$releaseDate' , '$trailerLink', '$coverArt', '$runTime', '$status');";
+      $sql = "INSERT INTO movie (name, director, cast, release_date, trailer_link, cover_pic, runtime, status, genre)
+              VALUES ('$movieName', '$director' , '$cast', '$releaseDate' , '$trailerLink', '$coverArt', '$runTime', '$status', '$genre');";
 
+  
       mysqli_query($conn, $sql);
+ 
     }
 
 
@@ -292,14 +301,12 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                                    <input type="text" class="form-control form-control-sm" placeholder="director*" name="director" value="" required>
                                 </div>
                                 <div class="taboptions">
-                                  <input type="text" class="form-control form-control-sm" placeholder="trailer link*" name="trailerlink" value="" required>
+                                  <input type="text" class="form-control form-control-sm" placeholder="trailer link*" name="trailerLink" value="" required>
                                </div>
                                <div class="taboptions">
-                                 genre:
-                                <input type="checkbox" name="genre1" value="action"> English
-                                <input type="checkbox" name="genre2" value="animated"> Bangla
-                                <input type="checkbox" name="genre3" value="comedy"> Dothraki
-                              </div>
+                                  <input type="text" class="form-control form-control-sm" placeholder="genre*" name="genre" value="" required>
+                               </div>
+                              
   
                               <div class="taboptions">
                                 <select name="status" required>
