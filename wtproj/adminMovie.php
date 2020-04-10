@@ -42,7 +42,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 
 
 
-    $sqlMovieCheck = "SELECT name FROM users WHERE name = '$movieName'";
+    $sqlMovieCheck = "SELECT name FROM movie WHERE name = '$movieName'";
     $result = mysqli_query($conn, $sqlMovieCheck);
 
     while($row = mysqli_fetch_assoc($result)){
@@ -239,10 +239,10 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                                 </div>
                               </div>
 
-                    <a class="active" href="adminMovie.html">Manage Movies</a>
-                    <a href="adminShow.html">Manage Shows</a>
-                    <a href="adminTheatre.html">Manage Theatres</a>
-                    <a href="adminOffer.html">Manage Offers</a>
+                    <a class="active" href="adminMovie.php">Manage Movies</a>
+                    <a href="adminShow.php">Manage Shows</a>
+                    <a href="adminTheatre.php">Manage Theatres</a>
+                    <a href="adminOffer.php">Manage Offers</a>
                 </div>
             </div>
 
