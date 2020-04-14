@@ -76,7 +76,9 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
         <title>Admin-Movie</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" type="text/css" rel="stylesheet" media="screen" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <link href="timingfield.css" type="text/css" rel="stylesheet" media="screen" />
         <link rel="stylesheet" type="text/css" href="style.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 
@@ -91,77 +93,81 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
     width: 80%;
     padding-right: 0px;
     padding-left: 0px;
-}
-
-
-
-        .sidebar {
-    margin: 0;
-    padding: 0;
-    
-    background-color: #f1f1f1;
-    
-    height: 100%;
-    overflow: hidden;
   }
-  
-  .sidebar a {
-    display: block;
-    color: black;
-    padding: 26px;
-    text-decoration: none;
+
+
+
+    a{
+      font-size: 14px;
+    }
+
+          .sidebar {
+      margin: 0;
+      padding: 0;
+      
+      background-color: #f1f1f1;
+      
+      height: 100%;
+      overflow: hidden;
+    }
+    
+    .sidebar a {
+      display: block;
+      color: black;
+      padding: 26px;
+      text-decoration: none;
+        border-style: solid;
+        border-width: 3px;
+        
+        border-color: white;
+        border-radius: 10px;
+
+    }
+    .card a {
+        padding: 10px;
+        color: #f1f1f1;
+        background-color: grey;
+    }
+    
+    .card-body{
+        padding: 0px;
+    }
+    .card-title {
+      margin-bottom: 0px;
+      padding: 6px;
+  }
+
+
+
+    .sidebar a.active {
+      background-color: black;
+      color: white;
+    }
+    
+    .sidebar a:hover:not(.active) {
+      background-color: #555;
+      color: white;
+    }
+
+    /*horizontal tab*/
+
+      .tablink {
+      background-color: #555;
+      color: white;
+      float: left;
+    
+      outline: none;
+      cursor: pointer;
+      padding: 25px 10px;
+      font-size: 20px;
+      width: 33.33%;
       border-style: solid;
-      border-width: 3px;
+      border-left-width: 7px;
+      border-right-width: 7px;
       
       border-color: white;
       border-radius: 10px;
-
-  }
-  .card a {
-      padding: 10px;
-      color: #f1f1f1;
-      background-color: grey;
-  }
-  
-  .card-body{
-      padding: 0px;
-  }
-  .card-title {
-     margin-bottom: 0px;
-     padding: 6px;
-}
-
-
-
-  .sidebar a.active {
-    background-color: black;
-    color: white;
-  }
-  
-  .sidebar a:hover:not(.active) {
-    background-color: #555;
-    color: white;
-  }
-
-  /*horizontal tab*/
-
-  .tablink {
-  background-color: #555;
-  color: white;
-  float: left;
- 
-  outline: none;
-  cursor: pointer;
-  padding: 25px 10px;
-  font-size: 20px;
-  width: 33.33%;
-  border-style: solid;
-  border-left-width: 7px;
-  border-right-width: 7px;
-  
-  border-color: white;
-  border-radius: 10px;
-}
+    }
 
 
 
@@ -170,22 +176,22 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 }
 
 /* Style the tab content (and add height:100% for full page content) */
-.tabcontent {
+  .tabcontent {
 
-  color: black;
-  display: none;
-  padding: 0px 20px;
-  height: 100%;
-  background-color:white;
-}
+    color: black;
+    display: none;
+    padding: 0px 20px;
+    height: 100%;
+    background-color:white;
+  }
 
-.taboptions {
-  padding: 10px;
-}
+  .taboptions {
+    padding: 10px;
+  }
 
-.mid {
-  width: 80%;
-}
+  .mid {
+    width: 80%;
+  }
 
   
         </style>
@@ -256,9 +262,38 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 
 
                     <div id="Dash" class="tabcontent">
-                      <h3> Dash</h3>
+                     
+                      <table class="table">
+                        <thead>
+                        <tr>
+                          <td> id </td>
+                          <td> name </td>
+                          <td> genre </td>
+                        </tr>
+                        </thead>
+                      <?php
+                      
+                      $dashSql = "SELECT mv_id, name, genre from movie";
+                      $dashResult = $conn-> query($dashSql);
+                      while ($row = $dashResult-> fetch_assoc()) {
+
+                      ?>
+                      <tbody>
+                      <tr>
+                          <td><?php echo $row["mv_id"]?></td>
+                          <td><?php echo $row["name"]?></td>
+                          <td><?php echo $row["genre"]?></td>
+
+                      </tr>
+                      </tbody>
                       
 
+                    <?php
+                      }
+                    ?>
+                      
+                     
+                      </table>
                     </div>
                     
 
@@ -272,18 +307,18 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                           <div class="col-lg-6 pt-4">
                             
                             <div class="taboptions">
-                                <input type="text" class="form-control form-control-sm" placeholder="Movie name*" name="movieName" value="" required>
+                                <input type="text" class="form-control form-control-lg" placeholder="Movie name*" name="movieName" value="" required>
                             </div>
                             <div class="taboptions">
-                                <input type="date" class="form-control form-control-sm" placeholder="Release Date*" name="releaseDate" value="" required>
-                            </div>
-  
-                            <div class="taboptions">
-                                <input type="number" class="form-control form-control-sm" placeholder="Runtime*" name="runTime" value="" required>
+                                <input type="date" class="form-control form-control-lg" placeholder="Release Date*" name="releaseDate" value="" required>
                             </div>
   
                             <div class="taboptions">
-                                <input type="file" class="form-control-sm-file border" placeholder="choose cover art*" name="coverArt" value="" required>
+                             Runtime  <input type="text" class="timing" name="runTime" value="" required>
+                            </div>
+  
+                            <div class="taboptions">
+                                <input type="file" class="form-control-lg-file border" placeholder="choose cover art*" name="coverArt" value="" required>
                             </div>
   
           
@@ -298,13 +333,13 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                                   <textarea name="cast" rows="4" cols="75"  placeholder="cast....." required></textarea>
                                 </div>
                                  <div class="taboptions">
-                                   <input type="text" class="form-control form-control-sm" placeholder="director*" name="director" value="" required>
+                                   <input type="text" class="form-control form-control-lg" placeholder="director*" name="director" value="" required>
                                 </div>
                                 <div class="taboptions">
-                                  <input type="text" class="form-control form-control-sm" placeholder="trailer link*" name="trailerLink" value="" required>
+                                  <input type="text" class="form-control form-control-lg" placeholder="trailer link*" name="trailerLink" value="" required>
                                </div>
                                <div class="taboptions">
-                                  <input type="text" class="form-control form-control-sm" placeholder="genre*" name="genre" value="" required>
+                                  <input type="text" class="form-control form-control-lg" placeholder="genre*" name="genre" value="" required>
                                </div>
                               
   
@@ -315,6 +350,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                                   <option value="Upcoming">Upcoming</option>
                              </select>
                               </div>
+                            
   
                              
   
@@ -369,7 +405,13 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
             document.getElementById("defaultOpen").click();
     </script>
             
-
+            <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script src="timingfield.js"></script>
+        <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            $(".timing").timingfield();
+        });
+        </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
