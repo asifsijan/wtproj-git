@@ -1,9 +1,9 @@
 <?php 
 
 include "includes/db_connect.inc.php"; 
-$dbname= $movieName = $releaseDate = $runTime = $coverArt = $cast = $director= $trailerLink = $status = "";
+$dbname= $movieName = $releaseDate = $runTime = $coverArt = $cast = $director= $trailerLink = $status = $plot = $language = $format = "";
 
-if($_SERVER["REQUEST_METHOD"]=="POST"){
+if(isset($_POST['regi'])){
     if(!empty($_POST['movieName'])){
       $movieName = mysqli_real_escape_string($conn, $_POST['movieName']);
     }
@@ -37,7 +37,18 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
     if(!empty($_POST['genre'])){
           $genre = mysqli_real_escape_string($conn, $_POST['genre']);
           }
-     
+    
+    if(!empty($_POST['plot'])){
+          $plot = mysqli_real_escape_string($conn, $_POST['plot']);
+          }
+          
+    if(!empty($_POST['language'])){
+      $language = mysqli_real_escape_string($conn, $_POST['language']);
+      }
+      
+    if(!empty($_POST['format'])){
+      $format = mysqli_real_escape_string($conn, $_POST['format']);
+      }
   
 
 
@@ -53,8 +64,8 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
       $err = "Movie already exists!";
     }
     else{
-      $sql = "INSERT INTO movie (name, director, cast, release_date, trailer_link, cover_pic, runtime, status, genre)
-              VALUES ('$movieName', '$director' , '$cast', '$releaseDate' , '$trailerLink', '$coverArt', '$runTime', '$status', '$genre');";
+      $sql = "INSERT INTO movie (name, director, cast, release_date, trailer_link, cover_pic, runtime, status, genre, plot, language, format)
+              VALUES ('$movieName', '$director' , '$cast', '$releaseDate' , '$trailerLink', '$coverArt', '$runTime', '$status', '$genre', '$plot', '$language', '$format');";
 
   
       mysqli_query($conn, $sql);
@@ -320,8 +331,17 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                             <div class="taboptions">
                                 <input type="file" class="form-control-lg-file border" placeholder="choose cover art*" name="coverArt" value="" required>
                             </div>
-  
-          
+                          <div class="taboptions">
+                                  <textarea name="plot" rows="4" cols="75"  placeholder="plot....." required></textarea>
+                            </div>
+
+                            <div class="taboptions">
+                                <select name="language" required>
+                                  <option value="" disabled selected>Language</option>
+                                  <option value="English">English</option>
+                                  <option value="Bengali">Bengali</option>
+                             </select>
+                              </div>
   
                           </div>
   
@@ -350,17 +370,21 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                                   <option value="Upcoming">Upcoming</option>
                              </select>
                               </div>
+
+                              <div class="taboptions">
+                                <select name="format" required>
+                                  <option value="" disabled selected>format</option>
+                                  <option value="2d">2d</option>
+                                  <option value="3d">3d</option>
+                             </select>
+                              </div>
                             
-  
-                             
-  
-  
                           </div>
   
                         </div>
                       
                         <div class="pt-3" align="center">
-                          <button type="submit" name="button"> register <br></button>
+                          <button type="submit" name="regi"> register <br></button>
                         </div>
   
                       </form>
@@ -375,6 +399,24 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                     <div id="Edit" class="tabcontent">
                       <h3>Edit</h3>
                      
+                      <select name="editMovie">
+                          <option value="" disabled selected>select one</option>
+                      <?php
+                      
+                      $editSql = "SELECT name from movie";
+                      $editResult = $conn-> query($editSql);
+                      while ($row = $editResult-> fetch_assoc()) {
+
+                      ?>
+ 
+                          <option value="<?php echo $row["name"]?>"><?php echo $row["name"]?></option>
+
+                    <?php
+                      }
+                    ?>
+                  </select>
+
+
                     </div>
                     
 
